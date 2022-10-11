@@ -1,0 +1,19 @@
+docker network create redis
+docker run -d --name redis-0 --net redis -v ${PWD}/redis-0:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+docker run -d --name redis-1 --net redis -v ${PWD}/redis-1:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+docker run -d --name redis-2 --net redis -v ${PWD}/redis-2:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+
+docker run -d --name sentinel-0 --net redis -v ${PWD}/sentinel-0:/etc/redis/ redis/redis-stack-server redis-sentinel /etc/redis/sentinel.conf
+docker run -d --name sentinel-1 --net redis -v ${PWD}/sentinel-1:/etc/redis/ redis/redis-stack-server redis-sentinel /etc/redis/sentinel.conf
+docker run -d --name sentinel-2 --net redis -v ${PWD}/sentinel-2:/etc/redis/ redis/redis-stack-server redis-sentinel /etc/redis/sentinel.conf
+
+#clustering
+
+docker run -d --name 7000 -v ${PWD}/7000:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+docker run -d --name 7001 -v ${PWD}/7001:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+docker run -d --name 7002 -v ${PWD}/7002:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+docker run -d --name 7003 -v ${PWD}/7003:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+docker run -d --name 7004 -v ${PWD}/7004:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+docker run -d --name 7005 -v ${PWD}/7005:/etc/redis/ redis/redis-stack-server redis-server /etc/redis/redis.conf
+
+redis-cli --cluster create 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 --cluster-replicas 1 -a redispw
