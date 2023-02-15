@@ -1,0 +1,14 @@
+*2
+$6
+SELECT
+$1
+0
+*4
+$8
+JSON.SET
+$6
+post:4
+$1
+$
+$175
+{"id": "4", "resumen": "el resumen", "titulo": "cuarto", "autor": "Blogero", "texto": "algo que no esta en otros posts", "tags": [], "relatedLinks": [], "fecha": "1665164100"}
